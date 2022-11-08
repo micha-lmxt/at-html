@@ -1,38 +1,59 @@
-# create-svelte
+# at-html
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Use `{@html }` tags with slots in Svelte apps 
 
-## Creating a project
+> ⚠️: Same security concerns as with normal @html tags apply, so I repeat it:
+Svelte doesn't perform any sanitization of the expression inside {@html ...} before it gets inserted into the DOM. In other words, if you use this feature it's critical that you manually escape HTML that comes from sources you don't trust, otherwise you risk exposing your users to XSS attacks.
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Installation
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+npm I --save-dev at-html
 ```
 
-## Building
+## Usage
 
-To create a production version of your app:
+The atHTML factory function creates a Svelte Component,
+which renders the supplied html string. 
+Slot tags in the html template are replaced.
+The component accepts no props.
 
-```bash
-npm run build
+```svelte
+<script>
+    import {atHTML} from 'at-html'
+
+    // Create a Svelte Component from html string
+    // start variable with capital letter
+    const C = atHTML('<h1><slot></slot></h1>')
+</script>
+<C>Some slotted content</C>
 ```
 
-You can preview the production build with `npm run preview`.
+If you change the html string a new Svelte Component is created.
+So, if you want to call atHTML in a reactive statement,
+you should use `<svelte:component>`
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+> Note: the html string is applied via innerHtml.
+That means the string must be proper html code,
+especially most elements need open *and* closing tags.
+Self-closing elements like `<slot/>` might not
+work as expected. Use `<slot></slot>` instead.
+
+### Named slots
+
+Named slots are supported, use the normal Svelte syntax.
+Eg. `<slot name='title'>' in the html string and
+prop `slot='title'` on the slotted component.
+
+### Fallback 
+
+Content within the slot tags in the html string
+is shown as fallback, if the slot is not filled.
+
+### Server-Side-Rendering (SSR)
+
+SSR is fully supported. A simplified non-SSR component is TBD.
+
+ ## License
+
+MIT
