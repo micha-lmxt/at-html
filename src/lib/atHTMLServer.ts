@@ -12,17 +12,16 @@ export function atHTMLServer(htmltag: string) {
         _slots.forEach(v=>{
             if (getName(v) in slots){
                 const string = slots[getName(v)]();
-                v.replaceWith(`~~at-html~~~ASTART~~at-html~~~B` +
+                v.replaceWith(`~~at-html~~~A` +
                     string +
-                    `~~at-html~~~C`)
+                    `~~at-html~~~B`)
             }else{
                 v.replaceWith(v.innerHTML);
             }
         })
         const res = doc.toString()
-            .replaceAll("~~at-html~~~A","<!-- HTML_SLOT_")
-            .replaceAll("~~at-html~~~B"," -->")
-            .replaceAll("~~at-html~~~C","<!-- HTML_SLOT_END -->")
+            .replaceAll("~~at-html~~~A","<!-- HTML_SLOT_START -->")
+            .replaceAll("~~at-html~~~B","<!-- HTML_SLOT_END -->")
         
         return `<!-- HTML_TAG_START -->${res}<!-- HTML_TAG_END -->`;
     });

@@ -1,6 +1,6 @@
-import type { HtmlTagHydration } from "svelte/internal";
+import type { HtmlTag, HtmlTagHydration } from "svelte/internal";
 
-export function findSlots(html:HtmlTagHydration){
+export function findSlots(html:HtmlTagHydration|HtmlTag){
     const slots = recursiveSlot(html.n)
     return slots;
 }

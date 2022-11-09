@@ -44,7 +44,7 @@ export function atHTML(htmltag: string) {
 		let html_tag: HtmlTagHydration;
 		let html_anchor: Text;
 		let current: boolean;
-		let slot_parents: (HTMLElement | undefined)[];
+		let slot_parents: (Node | undefined)[];
 		const slot_template = /*#slots*/ slots.map(v => ctx[1][v]);
 		const slot = slots.map(
 			(v, i) => create_slot(slot_template[i], ctx, /*$$scope*/ ctx[0], get_slot_context[i])
@@ -63,7 +63,7 @@ export function atHTML(htmltag: string) {
 				
 				html_tag = claim_html_tag(nodes, false);
 				html_anchor = empty();
-				slot_parents = claim_html_tag_slot(slot,html_tag.l);
+				slot_parents = claim_html_tag_slot(slot,html_tag.l as any);
 				
 				this.h();
 			},
