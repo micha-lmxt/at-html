@@ -52,8 +52,19 @@ is shown as fallback, if the slot is not filled.
 
 ### Server-Side-Rendering (SSR)
 
-SSR is fully supported. A simplified non-SSR component is TBD.
+SSR is fully supported. 
 
- ## License
+### Non-SSR
+
+There is a simplified component factory, if you want to use this library in a non-SSR environment,
+eg. in a Svelte single-page-application. It can be imported like this:
+
+```javascript
+import {atHTML} from 'at-html/noSSR';
+```
+
+The advantage is, that it adds less code to your js bundle. 
+
+## License
 
 MIT

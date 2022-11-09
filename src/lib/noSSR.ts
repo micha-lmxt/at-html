@@ -117,9 +117,6 @@ export function atHTML(htmltag: string) {
         };
     }
 
-
-    let name = 'world';
-
     function instance($$self: any, $$props: { $$slots: object, $$scope: any }, $$invalidate: (a?: number, b?: any) => any) {
         let { $$slots: slots = {}, $$scope } = $$props;
 

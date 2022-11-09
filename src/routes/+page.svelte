@@ -1,6 +1,6 @@
 <script>
     import {onMount} from 'svelte'
-    import {atHTML } from '$lib/index.js';
+    import {atHTML } from '$lib';
     import {atHTML as atHTMLnoSSR} from '$lib/noSSR';
 
     const htmlstring = `
@@ -28,4 +28,4 @@
 <button on:click={()=>text+="!"}>click</button>
 <h1>SSR:</h1>
 <SSRTest>{text}</SSRTest>
-<svelte:component this={noSSRtest2}>{text}</svelte:component>
+<svelte:component this={noSSRtest2}><div slot="xx">{text}</div></svelte:component>
