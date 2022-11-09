@@ -1,15 +1,19 @@
 <script>
     import {onMount} from 'svelte'
     import {atHTML } from '$lib/index.js';
+    import {atHTML as atHTMLnoSSR} from '$lib/noSSR';
+
     const htmlstring = `
         <h3>Before - <slot>
             Fallback <strong style="color:red;">content</strong>
         </slot> - <div>After</div> <slot name="xx"> Backfall </slot></h3>
         `
         const SSRTest = atHTML(htmlstring);
-    let noSSRtest;
+
+    let noSSRtest,noSSRtest2;
     onMount(()=>{
         noSSRtest = atHTML(htmlstring)
+        noSSRtest2 = atHTMLnoSSR(htmlstring);
     })
     let text = "some text";
 </script>
@@ -24,3 +28,4 @@
 <button on:click={()=>text+="!"}>click</button>
 <h1>SSR:</h1>
 <SSRTest>{text}</SSRTest>
+<svelte:component this={noSSRtest2}>{text}</svelte:component>
