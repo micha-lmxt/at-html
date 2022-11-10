@@ -17,17 +17,15 @@ import {
 } from "svelte/internal";
 import { claim_html_tag_slot } from "./claim";
 import { findSlots } from "./findSlots";
+
+	// ... server only logic
+  
 import {atHTMLServer} from './atHTMLServer';
 
 
-
 export function atHTML(htmltag: string) {
-	const isDom = !!(
-		typeof window !== 'undefined' &&
-		window.document &&
-		window.document.createElement
-	);
-	if (!isDom) {
+	if (import.meta.env.SSR) {
+		// ... server only logic
 		return atHTMLServer(htmltag);
 	}
 	const parser = new DOMParser();
