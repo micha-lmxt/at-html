@@ -2,7 +2,7 @@
 
 Use `{@html }` tags with slots in Svelte apps 
 
-> ⚠️: Same security concerns as with normal @html tags apply, so I repeat it:
+> ⚠️Same security concerns as with normal @html tags apply, so I repeat it:
 Svelte doesn't perform any sanitization of the expression inside {@html ...} before it gets inserted into the DOM. In other words, if you use this feature it's critical that you manually escape HTML that comes from sources you don't trust, otherwise you risk exposing your users to XSS attacks.
 
 ## Installation
@@ -63,7 +63,12 @@ eg. in a Svelte single-page-application. It can be imported like this:
 import {atHTML} from 'at-html/noSSR';
 ```
 
-The advantage is, that it adds less code to your js bundle. 
+> ⚠️This library currently is optimized for the use of Vite. It is highly recommended to use the non-SSR components if you don't use Vite. It uses  `if (import.meta.env.SSR) {...}`, which removes the server side code via tree-shaking. Non-Vite environments will pack the whole svelte compiler code into the client-side code.
+
+
+## How it works
+
+This library modifies an already compiled component. As such, it uses methods from `svelte/internal`. These don't have the same stability guarantees as user-land methods, so this library may be more likely to be incompatible with future versions of Svelte. 
 
 ## License
 

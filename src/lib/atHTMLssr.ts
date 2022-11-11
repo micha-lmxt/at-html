@@ -18,21 +18,30 @@ import {
 import { claim_html_tag_slot } from "./claim";
 import { findSlots } from "./findSlots";
 
-	// ... server only logic
-  
-import {atHTMLServer} from './atHTMLServer';
+// ... server only logic
+
+import { atHTMLServer } from './atHTMLServer';
 
 
 export function atHTML(htmltag: string) {
-	if (import.meta.env.SSR) {
-		// ... server only logic
-		return atHTMLServer(htmltag);
+	// add check for environments like repl
+	const isDOM = !!(
+		typeof window !== 'undefined' &&
+		window.document &&
+		window.document.createElement
+	)
+	if (!isDOM) {
+		if (import.meta.env.SSR) {
+			// ... server only logic
+			return atHTMLServer(htmltag);
+		}
+		return;
 	}
 	const parser = new DOMParser();
 	const slots = Array.from(
-		parser.parseFromString(htmltag,"text/html")
+		parser.parseFromString(htmltag, "text/html")
 			.getElementsByTagName("slot")
-	).map(v=>v.name||"default")
+	).map(v => v.name || "default")
 
 	const get_my_slot_changes = slots.map(v => ((dirty: number) => ({})))
 	const get_slot_context = slots.map(v => ((ctx: any[]) => ({})))
@@ -58,11 +67,11 @@ export function atHTML(htmltag: string) {
 				this.h();
 			},
 			l(nodes: any[]) {
-				
+
 				html_tag = claim_html_tag(nodes, false);
 				html_anchor = empty();
-				slot_parents = claim_html_tag_slot(slot,html_tag.l as any);
-				
+				slot_parents = claim_html_tag_slot(slot, html_tag.l as any);
+
 				this.h();
 			},
 			h() {
@@ -85,7 +94,7 @@ export function atHTML(htmltag: string) {
 				} else {
 					const slot_targets = findSlots(html_tag);
 					slots.forEach((v, i) => {
-						const index = slot_targets.findIndex((w:any) => v === "default" ? w.name === "" : w.name === v);
+						const index = slot_targets.findIndex((w: any) => v === "default" ? w.name === "" : w.name === v);
 						if (index >= 0) {
 							const tar = slot_targets.splice(index, 1)[0];
 							if (slot[i]) {
