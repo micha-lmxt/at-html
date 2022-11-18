@@ -2,7 +2,7 @@
 
 Use `{@html }` tags with slots in Svelte apps 
 
-> ⚠️Same security concerns as with normal @html tags apply, so I repeat it:
+> ⚠️Same security concerns as with normal @html tags apply, so I repeat them:
 Svelte doesn't perform any sanitization of the expression inside {@html ...} before it gets inserted into the DOM. In other words, if you use this feature it's critical that you manually escape HTML that comes from sources you don't trust, otherwise you risk exposing your users to XSS attacks.
 
 ## Installation
